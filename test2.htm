@@ -13,12 +13,10 @@
         
         body {
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
             background-color: #f5f5f5;
-            font-family: Arial, sans-serif;
         }
         
         .wheel-container {
@@ -27,7 +25,6 @@
             height: 80vmin;
             max-width: 500px;
             max-height: 500px;
-            margin-bottom: 20px;
         }
         
         .wheel {
@@ -71,29 +68,24 @@
         
         .wheel-pointer {
             position: absolute;
-            top: -20px;
-            left: 50%;
+            right: -20px;
+            top: 50%;
             width: 0;
             height: 0;
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            border-top: 30px solid #aaa;
-            transform: translateX(-50%);
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-left: 30px solid #aaa;
+            transform: translateY(-50%);
             z-index: 10;
         }
+
+       
 
         /* Colors for the sections */
         .red { background-color: #e74c3c; }
         .blue { background-color: #3498db; }
-        .green { 
-            background-color: #2ecc71; 
-            clip-path: polygon(5% 0%, 100% 100%, 0% 100%);
-        }
+        .green { background-color: #2ecc71; }
         .orange { background-color: #f39c12; }
-        .black { 
-            background-color: #da2b2b;
-            clip-path: polygon(5% 0%, 100% 100%, 0% 100%);
-        }
         
         /* Rotate sections */
         .section:nth-child(1) { transform: rotate(0deg); }
@@ -109,59 +101,8 @@
         .section:nth-child(11) { transform: rotate(300deg); }
         .section:nth-child(12) { transform: rotate(330deg); }
         
-        .spin-button {
-            padding: 12px 30px;
-            background-color: #2c3e50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 18px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .spin-button:hover {
-            background-color: #34495e;
-        }
-        
-        .spin-button:disabled {
-            background-color: #95a5a6;
-            cursor: not-allowed;
-        }
-        
-        .winner-popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 20px 40px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-            z-index: 100;
-            display: none;
-            text-align: center;
-        }
-        
-        .winner-popup h2 {
-            margin-bottom: 10px;
-            color: #2c3e50;
-        }
-        
-        .winner-number {
-            font-size: 48px;
-            color: #e74c3c;
-            margin: 20px 0;
-            font-weight: bold;
-        }
-        
-        .close-button {
-            padding: 8px 20px;
-            background-color: #3498db;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
+        .rotate-wheel {
+            animation: rotate 2s linear;
         }
 
         @media screen and (max-width: 600px) {
@@ -185,7 +126,6 @@
 </head>
 <body>
     <div class="wheel-container">
-        <div class="wheel-pointer"></div>
         <div class="wheel">
             <div class="section red"><div class="number-circle">16</div></div>
             <div class="section blue"><div class="number-circle">18</div></div>
@@ -198,65 +138,28 @@
             <div class="section red"><div class="number-circle">9</div></div>
             <div class="section blue"><div class="number-circle">22</div></div>
             <div class="section green"><div class="number-circle">4</div></div>
-            <div class="section black last"><div class="number-circle">20</div></div>
+            <div class="section orange last"><div class="number-circle">20</div></div>
+          
         </div>
-    </div>
-    
-    <button class="spin-button">SPIN</button>
-    
-    <div class="winner-popup">
-        <h2>The Winner Is</h2>
-        <div class="winner-number">0</div>
-        <button class="close-button">OK</button>
+        <div class="wheel-pointer"></div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const wheel = document.querySelector('.wheel');
-            const spinButton = document.querySelector('.spin-button');
-            const winnerPopup = document.querySelector('.winner-popup');
-            const winnerNumber = document.querySelector('.winner-number');
-            const closeButton = document.querySelector('.close-button');
             let spinning = false;
             
-            // Store the numbers in clockwise order (as they appear on the wheel)
-            const numbers = [16, 18, 12, 24, 8, 2, 14, 10, 9, 22, 4, 20];
-            
-            spinButton.addEventListener('click', function() {
+            wheel.addEventListener('click', function() {
                 if (spinning) return;
                 
                 spinning = true;
-                spinButton.disabled = true;
-                
-                // Random number of degrees (5-10 complete rotations plus a bit more)
-                const deg = 1800 + Math.floor(Math.random() * 360);
+                const deg = 1080 + Math.floor(Math.random() * 360);
                 
                 wheel.style.transform = `rotate(${deg}deg)`;
                 
                 setTimeout(() => {
                     spinning = false;
-                    spinButton.disabled = false;
-                    
-                    // Determine winner based on final rotation
-                    const finalRotation = deg % 360;
-                    const sectionSize = 30; // Each section is 30 degrees
-                    
-                    // Calculate which section the pointer is at
-                    // We add 15 degrees because the pointer is at the top (which is at 15 degrees from the start of section 1)
-                    let winningIndex = Math.floor(((360 - finalRotation) + 15) % 360 / sectionSize);
-                    
-                    // Handle edge case where the result is 12 (should be 0)
-                    if (winningIndex >= 12) winningIndex = 0;
-                    
-                    // Show the winning number
-                    winnerNumber.textContent = numbers[winningIndex];
-                    winnerPopup.style.display = 'block';
-                    
                 }, 5000);
-            });
-            
-            closeButton.addEventListener('click', function() {
-                winnerPopup.style.display = 'none';
             });
         });
     </script>
