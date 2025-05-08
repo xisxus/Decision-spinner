@@ -42,81 +42,58 @@
         
 
 
-        /* mobile 320 */
-        /* .section {
+        .section {
             position: absolute;
             width: 51%;
             height: 29%;
             transform-origin: bottom right;
-            left: -3px;
-            top: 60px;
-            display: flex;
-            justify-content: flex-start;
-            align-items: flex-start;
-            padding-top: 12%;
-            padding-left: 9%;
-        } */
-
-
-        /* mobile 375 */
-        /* .section {
-            position: absolute;
-            width: 51%;
-            height: 29%;
-            transform-origin: bottom right;
-            left: -5px;
-            top: 75px;
-            display: flex;
-            justify-content: flex-start;
-            align-items: flex-start;
-            padding-top: 12%;
-            padding-left: 9%;
-        } */
-
-        /* Tablet 768 */
-        /* .section {
-            position: absolute;
-            width: 51%;
-            height: 29%;
-            transform-origin: bottom right;
-            left: -5px;
-            top: 80px;
-            display: flex;
-            justify-content: flex-start;
-            align-items: flex-start;
-            padding-top: 12%;
-            padding-left: 9%;
-        } */
-
-        /* laptop 1440 */
-        /* .section {
-            position: absolute;
-            width: 51%;
-            height: 29%;
-            transform-origin: bottom right;
-            left: -5px;
-            top: 85px;
-            display: flex;
-            justify-content: flex-start;
-            align-items: flex-start;
-            padding-top: 12%;
-            padding-left: 9%;
-        } */
-
-         /* laptop 2560 */
-         .section {
-            position: absolute;
-            width: 51%;
-            height: 29%;
-            transform-origin: bottom right;
-            left: -5px;
-            top: 100px;
             display: flex;
             justify-content: flex-start;
             align-items: flex-start;
             padding-top: 12%;
             padding-left: 9%;
         }
+
+        /* Mobile 320px */
+        @media (max-width: 359px) {
+            .section {
+                left: -3px;
+                top: 60px;
+            }
+        }
+
+        /* Mobile 375px */
+        @media (min-width: 360px) and (max-width: 424px) {
+            .section {
+                left: -5px;
+                top: 75px;
+            }
+        }
+
+        /* Tablet 768px */
+        @media (min-width: 425px) and (max-width: 1023px) {
+            .section {
+                left: -5px;
+                top: 80px;
+            }
+        }
+
+        /* Laptop 1440px */
+        @media (min-width: 1024px) and (max-width: 1919px) {
+            .section {
+                left: -5px;
+                top: 85px;
+            }
+        }
+
+        /* Laptop 2560px and above */
+        @media (min-width: 1920px) {
+            .section {
+                left: -5px;
+                top: 100px;
+            }
+        }
+
         
         .number-circle {
             background-color: white;
